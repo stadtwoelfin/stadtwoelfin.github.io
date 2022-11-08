@@ -4,7 +4,7 @@ Meine Hauptseite findest du an anderer Stelle. [🐺](https://stadtwoelfin.de) K
 [Coding](coding.md)  
 Infos über meine Projekte.
 
-[Crypt-Text](crypt/)  
+[Crypt-Text](crypt-text/)  
 Sofort Texte verschlüsseln / entschlüsseln.
 
 [Über mich](about.md)  
