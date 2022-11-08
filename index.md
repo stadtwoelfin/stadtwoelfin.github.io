@@ -1,4 +1,5 @@
-# A new start.
-Indeed.
+#Herzlich willkommen.
+Meine Hauptseite findest du an anderer Stelle. [🐺](https://stadtwoelfin.de) Klick auf den Wolf.
 
-[über](about.md)
+[Über mich](about.md)
+[Coding](coding.md)
