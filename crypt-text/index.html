@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Die Stadtwölfin</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="assets/css/w3.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐺</text></svg>">
+<meta name="description" content="Die Webseite der Stadtwölfin.">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, max-image-preview:none, notranslate" />
+<style>
+.container {margin-top:2em;}
+details > summary {
+  list-style: none;
+}
+
+/*https://www.autoscripts.net/details-and-summary-delete-or-hide-arrow/*/
+details > summary::marker, /* Latest Chrome, Edge, Firefox */ 
+details > summary::-webkit-details-marker /* Safari */ {
+  display: none;
+}
+</style>
+</head>
+<script type="text/javascript" src="assets/data/alphacrypt2/alphac.js"></script>
+<script type="text/javascript" src="assets/data/alphacrypt2/md5.js"></script>
+<script type="text/javascript" src="assets/data/alphacrypt2/timer.js"></script>
+<div class="w3-container">
+<script>
+ // thx to https://attacomsian.com/blog/javascript-base64-encode-decode
+function encodeUnicode(str) {
+  // First we use encodeURIComponent to get percent-encoded UTF-8,
+  // then we convert the percent encodings into raw bytes which
+  // can be fed into btoa.
+  return btoa(
+    encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function toSolidBytes(match, p1) {
+      return String.fromCharCode('0x' + p1)
+    })
+  )
+}
+
+function decodeUnicode(str) {
+  // Going backward: from byte-stream to percent-encoding, to original string.
+  return decodeURIComponent(
+    atob(str)
+      .split('')
+      .map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+      })
+      .join('')
+  )
+}	
+</script>
+
+<script type="text/javascript">
+
+//http://www.myersdaily.org/joseph/javascript/alphac.html Alpha Crypt by Joseph Myers
+
+function process(on) {
+var fe = document.fe;
+var ke = fe.key.value;
+var re = fe.re;
+var f = timer(function() {
+re.value = alphac(re.value, ke, md5(ke), on)
+});
+var t = f();
+var d = re.value.length;
+var r = Math.round(d / t * 1000);
+//fe.time.value = r + 'B/s ' + t + 'ms ' + d + 'B';
+}
+
+//I've added Unicode Support and Base64 coding
+function encrypt() {
+var fe = document.fe;
+var ke = fe.key.value;
+var re = fe.re;
+var f = timer(function() {
+dertext = encodeUnicode(re.value);
+re.value = alphac(dertext, ke, md5(ke), 1)
+});
+var t = f();
+var d = re.value.length;
+var r = Math.round(d / t * 1000);
+//fe.time.value = r + 'B/s ' + t + 'ms ' + d + 'B';
+}
+
+function decrypt() {
+var fe = document.fe;
+var ke = fe.key.value;
+var re = fe.re;
+var f = timer(function() {
+dertext = re.value;
+re.value = alphac(dertext, ke, md5(ke), 0)
+dertext = re.value;
+re.value = decodeUnicode(dertext);
+});
+var t = f();
+var d = re.value.length;
+var r = Math.round(d / t * 1000);
+//fe.time.value = r + 'B/s ' + t + 'ms ' + d + 'B';
+}
+</script>
+</head>
+<body>
+<noscript>	
+	<div class="w3-panel w3-pale-red">
+	<h3>Kein JavaScript</h3>
+	<p>Du hast kein Javascript aktiviert. Du wirst deine Gründe dafür haben, doch so kann dieses Tool nicht korrekt geladen werden <span style="font-size:2em;">🤷‍♀️</span></p>
+	</div> 	
+</noscript>   
+<h2>Nachrichten verschlüsseln / entschlüsseln</h2>
+<form name="fe" onsubmit="process(window.a=!window.a); return false">
+
+<textarea class="textarea_crypt" name="re" placeholder="Dein Text" style="height:10em;width:60vw;padding:0.4em;"></textarea>
+<p><input type="text" name="key" class="textarea_crypt" placeholder="Das Passwort" /></p>
+<!--Time: <input type="text" name="time" size="24" /><br />-->
+</p>
+<p>
+
+<input type="reset" class="w3-button w3-black" value="Reset" />
+</p>
+
+
+</form>
+<hr>
+<p><button onclick="encrypt()" class="w3-button w3-black">Verschlüsseln</button></p>
+<p><button onclick="decrypt()" class="w3-button w3-black">Entschlüsseln</button></p>
+<hr>
+
+<p>Hinweis zum Datenschutz: Dieses Formular sendet keine Daten an den Server. Das komplette Script wird in deinem Browser ausgeführt und direkt vom Textfeld gelesen.</p>
+<div class="w3-content">
+
+</div>
+<details>
+	<summary><p class="w3-button w3-black">Mehr Infos</p></summary>
+	<div class="w3-content">
+	<p>Myers sprach 2002 von einem »nahezu unknackbarem« Code. Inzwischen sind viele Jahre vergangen. Da ich nicht genau einschätzen kann, wie sicher diese Verschlüsselung hier funktioniert, ist das Tool als Spielzeug zu betrachten.</p>
+	<p>Verschlüssle damit nichts, was du nicht auch im Klartext schreiben würdest.</p>
+	<p>Hinweis zum Datenschutz: Dieses Formular sendet keine Daten an den Server. Das komplette Script wird in deinem Browser ausgeführt und direkt im Textfeld verschlüsselt / entschlüsselt.</p>
+<h1>Alpha Crypt Text Message Encryptor</h1>
+<p><strong>Alpha Crypt</strong> uses MD5 cryptographic signatures
+on top of an XOR text encryption algorithm to form a
+<strong>practically unbreakable hybrid</strong>.</p>
+<h2>Features</h2>
+<p>Alpha Crypt uses MD5 cryptographic signatures on top of an XOR text encryption algorithm. It is designed for sending messages from anywhere on the Internet, without access to other encryption software. AC will not become confused by text wrapping, missing text, or other mistakes that occur during transmission. By running along a 64-character set, it will not garble binary values, or cause a browser to crash. For this reason, it is especially suited for public free email providers.</p>
+<h3>Security</h3>
+<p>Alpha Crypt defeats word-based or probability-based attacks,
+as well as overcoming methods which measure statistics based on consistent
+input-output.</p>
+<h3>Speed</h3>
+<p>Alpha Crypt is faster than other programs, by reducing
+cryptology running time primarily to internal bit operations,
+compatible with JavaScript browsers, instead of auxiliary
+functions.</p>
+
+<p>Alpha Crypt is offered as-is, without warranty. Although I
+would feel safe in saying that no one can read a message I
+send with Alpha Crypt, I do not wish to make any legally
+binding guarantees, express or implied. You have the freedom
+to be secure, but freedom is also your own responsibility.
+I take no liability from any use of this software.</p>
+
+[...]
+
+<h2>Notes</h2>
+<p>For distribution, a zip file is available,
+<a href="http://www.myersdaily.org/joseph/javascript/alphacrypt2.zip">alphacrypt2.zip</a>
+(5.15 KB: contains alphac.html, timer.js, md5.js, and alphac.js).</p>
+<h3>Libraries used</h3>
+<p>Originally from
+<a href="http://www.myersdaily.org/joseph/javascript/alphac.html">Alpha
+Crypt by Joseph Myers</a>.
+</div>
+</details>
