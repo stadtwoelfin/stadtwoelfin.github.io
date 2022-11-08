@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<title>Garbage</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Garbage.">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, max-image-preview:none, notranslate" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<body>
+<p><button onclick="stop();">Stop time</button></p>
+<p><button onclick="stop();" style="position:absolute;bottom:0px;left:0px;">Stop time</button></p>
+<p><input type="integer" value="300" id="mb"> MB to push</p>
+<p><button onclick="start();">Start generating</button></p>
+<p id="iteration">Iteration</p>
+<script>
+
+function func() {
+return ( ( ( 1+Math.random() ) * 0x10000 ) | 0 ).toString( 16 ).substring( 1 );
+}
+
+function name() 
+{
+UUID = (func() + func() + "-" + func() + "-3" + func().substr(0,2) + "-" + func() + "-" + func() + func() + func()).toLowerCase();
+return(UUID);
+}
+
+//
+    function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+ charactersLength));
+   }
+   return result;
+}
+
+
+
+//https://javascript.plainenglish.io/javascript-create-file-c36f8bccb3be
+function download() {
+
+data = (makeid(1*1024*1024));
+
+file = new File([data], name(), {
+  type: 'text/plain',
+})
+
+
+  const link = document.createElement('a')
+  const url = URL.createObjectURL(file)
+
+  link.href = url
+  link.download = file.name
+  document.body.appendChild(link)
+  link.click()
+
+  document.body.removeChild(link)
+  window.URL.revokeObjectURL(url)
+}
+
+
+
+//https://www.educba.com/javascript-uuid/
+
+
+iteration = 0;
+
+function myTimer() {
+max = document.getElementById('mb').value;
+
+document.getElementById('iteration').innerHTML = iteration+' / '+max;
+
+if(iteration<max){
+download();  
+} else {stop();}
+
+iteration++;
+
+}
+
+function stop()
+{
+
+clearInterval(myVar);
+alert("gestoppt");
+iteration = 0;
+}
+
+
+function start()
+{
+myVar = setInterval(myTimer ,100);
+}
+
+
+
+</script>
