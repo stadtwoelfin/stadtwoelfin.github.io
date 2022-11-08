@@ -8,7 +8,7 @@ Ein _Prototyp_(!): Ein verschlüsselter Chat mit Javascript & PHP. Super easy.
 Texte verschlüsseln und entschlüsseln durch _alphaycrypt2_.
 
 ## G
-[Garbage](https://github.com/stadtwoelfin/garbage)
+[Garbage](https://github.com/stadtwoelfin/garbage)  
 Erzeugt Datenmüll. Damit kann man leeren Speicherplatz überschreiben.
 
 ## S
