@@ -1,0 +1,149 @@
+<!-- Based on https://www.the-art-of-web.com/javascript/creating-sounds/ -->
+
+<script src="js/Soundplayer.js"></script>
+<div style="display: flex; justify-content: space-between;">
+<form id="soundForm" style="width: 48%">
+<fieldset>
+<legend>Sound Player 1</legend>
+<label>Frequency</label><span><input type="range" name="freq" value="261" min="220" max="880" oninput="myPlayer.setFrequency(this.value);show1(this.value);"></span>
+<label>Volume</label><span><input type="range" name="vol" value="50" min="0" max="200" oninput="myPlayer.setVolume(this.value/100);"></span>
+<label>Wave Type</label><span>
+<label><input type="radio" name="wave" value="sine" checked onclick="myPlayer.setWaveType(this.value);"> sine</label><br>
+<label><input type="radio" name="wave" value="square" onclick="myPlayer.setWaveType(this.value);"> square</label><br>
+<label><input type="radio" name="wave" value="sawtooth" onclick="myPlayer.setWaveType(this.value);"> sawtooth</label><br>
+<label><input type="radio" name="wave" value="triangle" onclick="myPlayer.setWaveType(this.value);"> triangle</label>
+</span>
+<span>
+<input name="play" type="button" onclick="
+  myPlayer.play(form.freq.value, form.vol.value/100, checkRadio(form.wave));
+  this.style.display = 'none';
+  form.stop.style.display = 'inline';
+" value="Play &#9658;">
+<input name="stop" style="display: none;" type="button" onclick="
+  myPlayer.stop();
+  form.play.style = 'inline';
+  this.style.display = 'none';
+" value="Stop &#10073;&#10073;"></span>
+</fieldset>
+</form>
+
+<form id="soundForm2" style="width: 48%;">
+<fieldset>
+<legend>Sound Player 2</legend>
+<label>Frequency</label><span><input type="range" name="freq" value="392" min="220" max="880" oninput="myPlayer2.setFrequency(this.value);show2(this.value);"></span>
+<label>Volume</label><span><input type="range" name="vol" value="25" min="0" max="200" oninput="myPlayer2.setVolume(this.value/100);"></span>
+<label>Wave Type</label><span>
+<label><input type="radio" name="wave" value="sine" onclick="myPlayer2.setWaveType(this.value);"> sine</label><br>
+<label><input type="radio" name="wave" value="square" checked onclick="myPlayer2.setWaveType(this.value);"> square</label><br>
+<label><input type="radio" name="wave" value="sawtooth" onclick="myPlayer2.setWaveType(this.value);"> sawtooth</label><br>
+<label><input type="radio" name="wave" value="triangle" onclick="myPlayer2.setWaveType(this.value);"> triangle</label>
+</span>
+<span>
+<input name="play" type="button" onclick="
+  myPlayer2.play(form.freq.value, form.vol.value/100, checkRadio(form.wave));
+  this.style.display = 'none';
+  form.stop.style.display = 'inline';
+" value="Play &#9658;">
+<input name="stop" style="display: none;" type="button" onclick="
+  myPlayer2.stop();
+  form.play.style = 'inline';
+  this.style.display = 'none';
+" value="Stop &#10073;&#10073;"></span>
+</fieldset>
+</form>
+
+<button onclick="startit();">playit</button>
+<script>
+
+function startit(){
+
+myPlayer.play(261, 25/100, 'sine');
+myPlayer2.play(323, 25/100, 'sine');
+/*
+myPlayer.setFrequency(261);
+myPlayer2.setFrequency(323);
+myPlayer1.setWaveType('sine');
+myPlayer2.setWaveType('sine');
+myPlayer1.setVolume(25/100)
+myPlayer1.setVolume(25/100)
+*/
+}
+
+function show1(value)
+{
+	console.log(value);
+}
+
+function show2(value)
+{
+	console.log(value);
+}
+
+  const checkRadio = (field) => {
+    if((typeof field.length == "undefined") && (field.type == "radio")) {
+      if(field.checked) return field.value;
+    } else {
+      for(let i=0; i < field.length; i++) {
+        if(field[i].checked) return field[i].value;
+      }
+    }
+    return false;
+  };
+
+  const changePianoMode = (active) => {
+    for(let el of piano.getElementsByTagName("DIV")) {
+      if(active) {
+        el.addEventListener("mouseover", playNote, false);
+      } else {
+        el.removeEventListener("mouseover", playNote, false);
+      }
+    }
+  };
+
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const audio = new AudioContext();
+
+  const analyser = audio.createAnalyser();
+
+  let analyserDisplay = document.getElementById("analyser");
+  let myPlayer, myPlayer2;
+  if(analyser.getFloatTimeDomainData) {
+    analyser.fftSize = 512;
+    analyser.connect(audio.destination);
+    myPlayer = new SoundPlayer(audio, analyser);
+    myPlayer2 = new SoundPlayer(audio, analyser);
+    for(let i=0; i < analyser.fftSize; i++) {
+      //analyserDisplay.appendChild(document.createElement("DIV"));
+    }
+    let dataArray = new Float32Array(analyser.fftSize);
+    setInterval(function() {
+      analyser.getFloatTimeDomainData(dataArray);
+      for(let i=0; i < dataArray.length; i++) {
+        //analyserDisplay.children[i].style.height = (50 + (10 * dataArray[i])) + "px";
+      }
+    }, 500);
+  } else {
+    // getFloatTimeDomainData not supported
+    myPlayer = new SoundPlayer(audio);
+    myPlayer2 = new SoundPlayer(audio);
+    analyserDisplay.style.display = "none";
+  }
+
+  const compressor = audio.createDynamicsCompressor();
+  compressor.connect(audio.destination);
+
+  const playNote = (e) => {
+    (new SoundPlayer(audio, compressor)).play(e.target.dataset.frequency, 0.8, "sine").setVolume(1/1000, 0.55).stop(0.6);
+    e.cancelBubble = true;
+  };
+
+/*
+  let piano = document.getElementById("piano");
+  for(let el of piano.getElementsByTagName("DIV")) {
+    el.addEventListener("click", playNote, false);
+  }
+  */
+
+</script>
+
+

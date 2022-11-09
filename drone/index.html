@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Drone</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌊</text></svg>">
+<meta name="description" content="Drone.">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, max-image-preview:none, notranslate" />
+    <style type="text/css">
+        #bg {
+          position: fixed; 
+          top: -50%; 
+          left: -50%; 
+          width: 200%; 
+          height: 200%;
+      }
+      #bg img {
+          position: absolute; 
+          top: 0; 
+          left: 0; 
+          right: 0; 
+          bottom: 0; 
+          margin: auto; 
+          min-width: 50%;
+          min-height: 50%;
+		  z-index:80;
+      }
+	  
+	     #start{
+          position: absolute; 
+          top: 0; 
+          left: 0; 
+          right: 0; 
+          bottom: 0; 
+          margin: auto; 
+			height:2em;
+			width:4em;
+			font-size:2em;
+			border-radius:15px;
+		   z-index:100;
+      }
+	  
+	  /*Thx to https://stackoverflow.com/questions/14068103/disable-antialising-when-scaling-images  */
+	  img { 
+    image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
+    image-rendering: -moz-crisp-edges;          /* Firefox                        */
+    image-rendering: -o-crisp-edges;            /* Opera                          */
+    image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
+    image-rendering: pixelated;                 /* Universal support since 2021   */
+    image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
+    -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
+	image-rendering: pixelated;
+}
+  </style>
+</head>
+<body> 
+   <button id="start" onclick="startit();this.style.display='none';" style="display:block;">Start</button>
+   
+ <div id="bg">
+   <!-- 
+   https://pixabay.com/photos/tree-cat-silhouette-moon-full-moon-736877/
+   User: https://pixabay.com/users/bessi-909086/
+   -->
+  <img src="img/tree-gd7ddce027_640.jpg" alt="">
+
+</div>
+
+
+<!-- Based on https://www.the-art-of-web.com/javascript/creating-sounds/ -->
+
+<script src="js/Soundplayer.js"></script>
+
+<button onclick="startit();">playit</button>
+<script>
+
+function startit(){
+
+myPlayer.play(261, 25/100, 'sine');
+myPlayer2.play(323, 25/100, 'sine');
+}
+
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const audio = new AudioContext();
+
+  const analyser = audio.createAnalyser();
+
+  let analyserDisplay = document.getElementById("analyser");
+  let myPlayer, myPlayer2;
+  if(analyser.getFloatTimeDomainData) {
+    analyser.fftSize = 512;
+    analyser.connect(audio.destination);
+    myPlayer = new SoundPlayer(audio, analyser);
+    myPlayer2 = new SoundPlayer(audio, analyser);
+    for(let i=0; i < analyser.fftSize; i++) {
+      //analyserDisplay.appendChild(document.createElement("DIV"));
+    }
+    let dataArray = new Float32Array(analyser.fftSize);
+    setInterval(function() {
+      //analyser.getFloatTimeDomainData(dataArray);
+      for(let i=0; i < dataArray.length; i++) {
+        //analyserDisplay.children[i].style.height = (50 + (10 * dataArray[i])) + "px";
+      }
+    }, 500);
+  } else {
+    // getFloatTimeDomainData not supported
+    myPlayer = new SoundPlayer(audio);
+    myPlayer2 = new SoundPlayer(audio);
+   // analyserDisplay.style.display = "none";
+  }
+
+  const compressor = audio.createDynamicsCompressor();
+  compressor.connect(audio.destination);
+
+</script>
+
+
