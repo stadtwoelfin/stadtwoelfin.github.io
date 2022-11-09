@@ -7,7 +7,7 @@ Infos über meine Projekte.
 [Crypt-Text](crypt-text/)  
 Sofort Texte verschlüsseln / entschlüsseln.
 
-[Magical Moon Drone](https://github.com/stadtwoelfin/drone)  
+[Magical Moon Drone](drone/)  
 Awooo! 🐺
 
 [Über mich](about.md)  
