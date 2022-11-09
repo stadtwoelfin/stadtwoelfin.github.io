@@ -14,3 +14,7 @@ Erzeugt Datenmüll. Damit kann man leeren Speicherplatz überschreiben.
 ## S
 [Save-a-stream](https://github.com/stadtwoelfin/save-a-stream)  
 Ein simpler, aber effektiver Streamripper als PHP-Script, um Onlineradios mitzuschneiden.
+
+## W
+[Wellenrauschen](https://github.com/stadtwoelfin/wellenrauschen)  
+Mehraches Brownsches Rauschen, verändert durch Wellenmodulation, mit Timerfunktion.
