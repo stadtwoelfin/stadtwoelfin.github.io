@@ -22,3 +22,6 @@ Ein simpler, aber effektiver Streamripper als PHP-Script, um Onlineradios mitzus
 ## W
 [Wellenrauschen](https://github.com/stadtwoelfin/wellenrauschen)  
 Mehraches Brownsches Rauschen, verändert durch Wellenmodulation, mit Timerfunktion.
+
+[Wolfie Mini-CMS](https://github.com/stadtwoelfin/wolfie-mini-cms)  
+Ein super einfaches halbmanuelles CMS auf Basis von Paper.css und Parsedown.
