@@ -72,12 +72,42 @@
 <script src="js/Soundplayer.js"></script>
 
 <button onclick="startit();">playit</button>
+<button onclick="stop();">playit</button>
 <script>
 
-function startit(){
+setTimeout(function() {
+	const input = prompt("Wie lange? (in Minuten)")
+	duration = parseInt( `${input}`, 10 );
+	if(isNaN(duration)){duration = 1}
+	},1000);
 
-myPlayer.play(261, 25/100, 'sine');
-myPlayer2.play(323, 25/100, 'sine');
+
+function startit(){
+	alert("Dauer: "+duration+" Minuten");
+	iteration = 0;
+	max = duration*60
+	max = 4;
+	try  {
+	drones = setInterval(dronetimer ,1000);
+	myPlayer.play(261, 25/100, 'sine');
+	myPlayer2.play(323, 25/100, 'sine');
+	
+	}
+	catch(err) {alert(err.message);}
+}
+
+
+function dronetimer() {
+	if(iteration<max){} else {stop();}
+	console.log(iteration);
+	iteration++;
+}
+
+function stop()
+{
+	clearInterval(drones);
+	audio.close();
+	iteration = 0;
 }
 
   const AudioContext = window.AudioContext || window.webkitAudioContext;
